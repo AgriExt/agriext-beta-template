@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link href="css/style.css" rel="stylesheet">
+
+
+    <script type="text/javascript">
+        $(function () {
+
+            // We can attach the `fileselect` event to all file inputs on the page
+            $(document).on('change', ':file', function () {
+                var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            // We can watch for our custom `fileselect` event like this
+            $(document).ready(function () {
+                $(':file').on('fileselect', function (event, numFiles, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                    if (input.length) {
+                        input.val(log);
+                    } else {
+                        if (log) alert(log);
+                    }
+
+                });
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">AgriExt</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="modelo.html">Gerar Modelo</a></li>
+                        <li class="active"><a href="et.html">Gerar ET0</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="text-center ">
+                <h2 class="h2">
+                    AgriExt - Dados Meteorológicos
+                </h2>
+            </div>
+        </div>
+
+        <div class="row ">
+            <!-- Small button group-->
+            <div class="col-md-4 col-md-offset-1 text-center jumbotron">
+                <h4>Escolha o modelo</h4>
+
+
+                <select class="form-control form-control-md">
+                    <option selected>Selecione o modelo</option>
+                    <option value="">Método de Jensen-Hayse</option>
+                    <option value="">QuixadáHC</option>
+                </select>
+                <br>
+                <p>ou</p>
+                <div class="input-group">
+                    <label class="input-group-btn">
+                    <span class="btn btn-info">
+                        Buscar&hellip; <input type="file" style="display: none;" multiple>
+                    </span>
+                </label>
+                    <input type="text" class="form-control" readonly>
+                </div>
+                <span class="help-block">
+                Carregue o seu modelo (.model).
+            </span>
+            <div class="input-group input-group-md">
+                    <span class="input-group-addon" id="sizing-addon1">KC</span>
+                    <input type="text" class="form-control" placeholder="Adicione o Kc" aria-describedby="sizing-addon1">
+                </div>
+                <br>
+                <button type="button" class="btn btn-info btn-md btn-block">executar</button>
+                <br>
+            </div>
+
+            <div class="col-md-6 col-md-offset-1 text-center jumbotron">
+                <h4>Resultado</h4>
+                <div class="text-center">
+                    <br>
+                    <div class="tdados">
+                        <table class="table table-bordered table-hover table-md ">
+                            <thead>
+                                <tr>
+                                    <th>ET0</th>
+                                    <th>Kc * ET0</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0.2591522</td>
+                                    <td>0.1814066</td>
+                                </tr>
+                                <tr>
+                                    <td>0.8272096</td>
+                                    <td>0.5790467</td>
+                                </tr>
+                                <tr>
+                                    <td>0.8168271</td>
+                                    <td>0.5717790</td>
+                                </tr>
+                                <tr>
+                                    <td>0.8073443</td>
+                                    <td>0.5651410</td>
+                                </tr>
+                                <tr>
+                                    <td>0.7088532</td>
+                                    <td>0.4961972</td>
+                                </tr>
+                                <tr>
+                                    <td>0.5888452</td>
+                                    <td>0.4121916</td>
+                                </tr>
+                                <tr>
+                                    <td>0.4413514</td>
+                                    <td>0.3089460</td>
+                                </tr>
+                                <tr>
+                                    <td>0.4370380</td>
+                                    <td>0.3059266</td>
+                                </tr>
+                                <tr>
+                                    <td>0.7279641</td>
+                                    <td>0.5095749</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group input-group-md">
+                    <span class="input-group-addon" id="sizing-addon1">
+                        ÁGUA(mm/dia) EVAPOTRANSPIRADA</span>
+                    <fieldset disabled>
+                        <input type="text" class="form-control" placeholder="3.93021" aria-describedby="sizing-addon1">
+                    </fieldset>
+                </div>
+                <div class="input-group input-group-md">
+                    <span class="input-group-addon" id="sizing-addon1">
+                        ÁGUA(mm/dia) PARA A IRRIGAÇÃO 
+                    </span>
+                    <fieldset disabled>
+                        <input type="text" class="form-control" placeholder="5.614585" aria-describedby="sizing-addon1">
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
+<script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
+
+</html>

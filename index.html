@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <!-- amCharts javascript sources -->
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+    <title>Demo</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            // We can attach the `fileselect` event to all file inputs on the page
+            $(document).on('change', ':file', function () {
+                var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            // We can watch for our custom `fileselect` event like this
+            $(document).ready(function () {
+                $(':file').on('fileselect', function (event, numFiles, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                    if (input.length) {
+                        input.val(log);
+                    } else {
+                        if (log) alert(log);
+                    }
+
+                });
+            });
+
+        });
+    </script>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">AgriExt</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="index.html">Início</a></li>
+                        <li><a href="modelo.html">Gerar Modelo</a></li>
+                        <li><a href="et.html">Gerar ET0</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="text-center ">
+                <h2 class="h2">
+                    AgriExt - Dados Meteorológicos
+                </h2>
+            </div>
+        </div>
+
+
+        <div class="row jumbotron">
+            <!-- Small button group-->
+            <div class="col-md-4 text-center">
+                <br>
+                <select class="form-control form-control-md">
+                    <option selected>Selecione a estação</option>
+                    <option value="">Fortaleza</option>
+                    <option value="">Quixadá</option>
+                    <option value="">Quixeramobim</option>
+                </select>
+                <br>
+                <p>ou</p>
+                <div class="text-center">
+                    <h4>Carregue o seu CSV</h4>
+                    <div class="input-group">
+                        <label class="input-group-btn">
+                    <span class="btn btn-info">
+                        Browse&hellip; <input type="file" style="display: none;" multiple>
+                    </span>
+                </label>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                    <span class="help-block">
+                Selecione o seu dataset para visualizar.
+            </span>
+                </div>
+                <button type="button" class="btn btn-info btn-md btn-block">RODAR</button>
+            </div>
+
+            <div class="col-md-7 col-md-offset-1 text-center">
+                <br>
+                <div class="tdados">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Atributo</th>
+                                <th>AVG</th>
+                                <th>MAX</th>
+                                <th>MIN</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">temp_inst</th>
+                                <td>30.26</td>
+                                <td>31.2</td>
+                                <td>27.8</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">temp_max</th>
+                                <td>30.65</td>
+                                <td>31.6</td>
+                                <td>27.9</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">temp_min</th>
+                                <td>29.35</td>
+                                <td>30.9</td>
+                                <td>25.9</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">umid_inst</th>
+                                <td>61.00</td>
+                                <td>75</td>
+                                <td>54</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">umid_max</th>
+                                <td>65.66</td>
+                                <td>88</td>
+                                <td>58</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">umid_min</th>
+                                <td>58.66</td>
+                                <td>74</td>
+                                <td>53</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">pto_orvalho_inst</th>
+                                <td>21.83</td>
+                                <td>22.8</td>
+                                <td>20.8</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">pto_orvalho_max</th>
+                                <td>22.62</td>
+                                <td>23.8</td>
+                                <td>22</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">pto_orvalho_min</th>
+                                <td>21.18</td>
+                                <td>22.6</td>
+                                <td>20.2</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">pressao</th>
+                                <td>1008.43</td>
+                                <td>1010.2</td>
+                                <td>1006.5</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">pressao_max</th>
+                                <td>1008.88</td>
+                                <td>1010.4</td>
+                                <td>1006.6</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">pressao_min</th>
+                                <td>1008.35</td>
+                                <td>1010.1</td>
+                                <td>1006.4</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">vento_direcao</th>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">vento_vel</th>
+                                <td>103.44</td>
+                                <td>126</td>
+                                <td>76</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">vento_rajada</th>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">radiacao</th>
+                                <td>1828.00</td>
+                                <td>2397</td>
+                                <td>846</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">precipitacao</th>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row header text-center">
+            <div class="col-md-12">
+                <h3>
+                    Selecione o dia que desejar visualizar
+                </h3>
+                <select class="form-control form-control-md">
+                    <option selected>Selecione o dia</option>
+                    <option value="">2017/06/01</option>
+                    <option value="">2017/06/02</option>
+                    <option value="">2017/06/03</option>
+                    <option value="">2017/06/04</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div id="temp_inst" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("temp_inst",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (ºC)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "temp_inst"
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 27.8,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 29.6,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 30.4,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 31.2,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 31.2,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 31.2,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 30.6,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 30.6,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 29.8,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div id="temp_max" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("temp_max",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (ºC)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "temp_max"
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 27.9,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 29.6,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 30.9,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 31.3,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 31.6,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 31.6,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 31.6,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 30.8,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 30.6,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                ); 31.6
+            </script>
+
+            <div class="col-md-6">
+                <div id="temp_min" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("temp_min",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (ºC)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "temp_min "
+                            }
+                        ],
+                        "dataProvider": [
+
+
+                            {
+                                "column-1": 25.9,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 27.8,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 29.1,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 30.1,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 30.2,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 30.9,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 30.5,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 30.1,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 29.6,
+                                "date": "01/06/16 19"
+                            }
+
+
+
+                        ]
+                    }
+                );
+            </script>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div id="umid_inst" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("umid_inst",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (%)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "umid_inst"
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 75,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 65,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 61,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 60,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 54,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 57,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 57,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 58,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 62,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+
+            <div class="col-md-6">
+                <div id="umid_max" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("umid_max",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (%)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "umid_max "
+                            }
+                        ],
+                        "dataProvider": [
+
+
+                            {
+                                "column-1": 88,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 75,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 66,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 62,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 61,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 58,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 58,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 60,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 63,
+                                "date": "01/06/16 19"
+                            }
+
+
+                        ]
+                    }
+                );
+            </script>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div id="umid_min" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("umid_min",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (%)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "umid_min"
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 74,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 65,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 59,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 56,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 53,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 53,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 53,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 57,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 58,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+
+            <div class="col-md-6">
+                <div id="pto_orvalho_inst" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("pto_orvalho_inst",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (ºC)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "pto_orvalho_inst "
+                            }
+                        ],
+                        "dataProvider": [
+
+
+                            {
+                                "column-1": 22.8,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 22.2,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 22.1,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 22.4,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 20.8,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 21.7,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 21.2,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 21.5,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 21.8,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div id="pto_orvalho_max" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("pto_orvalho_max",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (ºC)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "pto_orvalho_max"
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 23.8,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 23.2,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 23.3,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 22.7,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 22.5,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 22.1,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 22.0,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 22.0,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 22.0,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+
+            <div class="col-md-6">
+                <div id="pto_orvalho_min" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("pto_orvalho_min",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (ºC)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "pto_orvalho_min "
+                            }
+                        ],
+                        "dataProvider": [
+
+
+                            {
+                                "column-1": 22.6,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 21.7,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 21.6,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 21.3,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 20.7,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 20.6,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 20.2,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 20.8,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 21.2,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div id="pressao" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("pressao",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (hPa)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "Pressa"
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 1010.1,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 1010.2,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 1010.1,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 1009.4,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 1008.5,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 1007.7,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 1006.9,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 1006.5,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 1006.5,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+
+            <div class="col-md-6">
+                <div id="pressaoMax" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("pressaoMax",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (hPa)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "Pressao_Max "
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 1010.1,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 1010.3,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 1010.4,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 1010.1,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 1009.4,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 1008.5,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 1007.7,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 1006.9,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 1006.6,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div id="pressaoMin" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("pressaoMin",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (hPa)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "Pressa_min "
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 1009.7,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 1010.1,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 1010.1,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 1009.4,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 1008.5,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 1007.6,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 1006.9,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 1006.5,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 1006.4,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+            <div class="col-md-6">
+                <div id="ventoD" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("ventoD",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (m/s)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "vento_direcao "
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 0.,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div id="ventoV" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("ventoV",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (m/s)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "Vento_V "
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 123,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 126,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 110,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 102,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 106,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 106,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 93,
+                                "date": "01/06/16 17"
+                            },
+                            {
+
+                                "column-1": 76,
+                                "date": "01/06/16 18"
+                            },
+                            {
+
+                                "column-1": 89,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+            <div class="col-md-6">
+                <div id="ventoR" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("ventoR",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (m/s)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "Vento_rajada "
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 0.,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+        </div>
+        <br>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div id="radiacao" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("radiacao",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (kJ/m²)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "Radiação "
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 846,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 1719,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 1302,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 1346,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 2154,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 2397,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 2353,
+                                "date": "01/06/16 17"
+                            },
+                            {
+
+                                "column-1": 2302,
+                                "date": "01/06/16 18"
+                            },
+                            {
+
+                                "column-1": 2033,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+            <div class="col-md-6">
+                <div id="precipitacao" style="min-width: 310px; height: 300px; max-width: 800px; margin: 0 auto"></div>
+            </div>
+            <!-- amCharts javascript code -->
+            <script type="text/javascript">
+                AmCharts.makeChart("precipitacao",
+                    {
+                        "type": "serial",
+                        "categoryField": "date",
+                        "dataDateFormat": "DD/MM/YY HH",
+                        // "dataDateFormat": "YYYY-MM-DD HH",
+                        "theme": "light",
+                        "categoryAxis": {
+                            "minPeriod": "hh",
+                            "parseDates": true
+                        },
+                        "chartCursor": {
+                            "enabled": true,
+                            "categoryBalloonDateFormat": "JJ:NN"
+                        },
+                        "chartScrollbar": {
+                            "enabled": true
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "bullet": "round",
+                                "id": "AmGraph-1",
+                                "title": "Valores obtidos",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": "Valores em (mm)"
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "Precipitação "
+                            }
+                        ],
+                        "dataProvider": [
+
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 11"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 12"
+                            }
+                            ,
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 13"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 14"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 15"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 16"
+                            },
+                            {
+                                "column-1": 0.,
+                                "date": "01/06/16 17"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 18"
+                            },
+                            {
+                                "column-1": 0.0,
+                                "date": "01/06/16 19"
+                            }
+
+                        ]
+                    }
+                );
+            </script>
+        </div>
+
+    </div>
+
+</body>
+
+
+
+
+
+<script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
+<script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
+
+</html>
